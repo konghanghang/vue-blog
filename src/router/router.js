@@ -14,6 +14,8 @@ const userInfo = () => import('../views/user/index.vue')
 const userArticle = () => import('../views/user/index.vue')
 // 列表展示
 const mensesShow = () => import('../views/menses/show.vue')
+// 任务列表展示
+const jobs = () => import('../views/job/jobs.vue')
 
 const routes = [
   {
@@ -73,9 +75,15 @@ const routes = [
   },
   {
     /*列表展示*/
-    path: '/k/menses/show/:page',
+    path: '/menses/:page',
     name:'mensesShow',
     component:mensesShow
+  },
+  {
+    /*列表展示*/
+    path: '/jobs/:page',
+    name:'jobs',
+    component:jobs
   }
 ]
 

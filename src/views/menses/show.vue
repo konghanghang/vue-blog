@@ -9,11 +9,11 @@
                 </el-table-column>
                 <el-table-column prop="month" label="月份">
                 </el-table-column>
-                <el-table-column prop="lastMensesTime" label="上一次时间" :formatter="dateFormat">
+                <el-table-column prop="lastTime" label="上一次时间" :formatter="dateFormat">
                 </el-table-column>
-                <el-table-column prop="mensesTime" label="预计" :formatter="dateFormat">
+                <el-table-column prop="predictionTime" label="预计" :formatter="dateFormat">
                 </el-table-column>
-                <el-table-column prop="trueMensesTime" label="真正" :formatter="dateFormat">
+                <el-table-column prop="trueTime" label="真正" :formatter="dateFormat">
                 </el-table-column>
                 <el-table-column prop="createDate" label="创建时间" :formatter="dateFormat">
                 </el-table-column>
@@ -75,7 +75,7 @@ export default {
         },
         dateFormat(row, column,cellValue){
             //var date = row[column.property];
-            if (cellValue == undefined || cellValue == null) {
+            if (cellValue == undefined || cellValue == null || cellValue === 0) {
                 return "-";  
             }
             var date = new Date(cellValue * 1000)
