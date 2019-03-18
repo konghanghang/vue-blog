@@ -19,5 +19,8 @@ export default {
 	},
 	deleteJob(data){
 		return fetch.post("/job/deleteJob", data);
+	},
+	doJob(data){
+		return fetch.post("/job/doJob", data);
 	}
 }

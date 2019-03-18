@@ -19,7 +19,9 @@
 
                 <el-table-column prop="cornExpression" label="表达式"></el-table-column>
 
-                <el-table-column prop="timeZoneId" label="时区"></el-table-column>
+                <el-table-column prop="jobState" label="状态"></el-table-column>
+
+                <el-table-column prop="prevFireTime" label="上次执行时间"></el-table-column>
 
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
@@ -32,10 +34,10 @@
                         </el-row>
                         <el-row>
                             <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
-                        </el-button>
+                            </el-button>
 
-                        <el-button size="small" type="success" @click="showUpdate(scope.$index, scope.row)">修改
-                        </el-button>
+                            <el-button size="small" type="success" @click="showUpdate(scope.$index, scope.row)">修改
+                            </el-button>
                         </el-row>
                     </template>
                 </el-table-column>
@@ -212,6 +214,19 @@ export default {
             jobApi.deleteJob(data).then(ret => {
                 console.log(ret)
                 this.$message.success("删除成功！");
+                this.initialization();
+            }).catch(err => {
+                this.$message.error(err.data.message);
+            })
+        },
+        doJob(index, row){
+            let data = {
+                "jobClass": row.jobClass,
+                "jobGroup": row.jobGroup
+            };
+            jobApi.doJob(data).then(ret => {
+                console.log(ret)
+                this.$message.success("执行成功！");
                 this.initialization();
             }).catch(err => {
                 this.$message.error(err.data.message);
