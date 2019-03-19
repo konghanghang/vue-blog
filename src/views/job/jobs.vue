@@ -9,27 +9,30 @@
             <el-table :data="jobList" style="width: 100%" :row-class-name="tableRowClassName">
                 <el-table-column prop="jobName" label="任务名称" show-overflow-tooltip></el-table-column>
 
-                <el-table-column prop="jobGroup" label="任务所在组"></el-table-column>
+                <el-table-column prop="jobGroup" label="任务组"></el-table-column>
 
-                <el-table-column prop="jobClass" label="任务类名"></el-table-column>
+                <!-- <el-table-column prop="jobClass" label="任务类名"></el-table-column> -->
 
-                <el-table-column prop="triggerName" label="触发器名称"></el-table-column>
+                <!-- <el-table-column prop="triggerName" label="触发器名称"></el-table-column> -->
 
-                <el-table-column prop="triggerGroup" label="触发器所在组"></el-table-column>
+                <!-- <el-table-column prop="triggerGroup" label="触发器组"></el-table-column> -->
 
                 <el-table-column prop="cornExpression" label="表达式"></el-table-column>
 
-                <el-table-column prop="jobState" label="状态"></el-table-column>
+                <el-table-column prop="triggerState" label="状态"></el-table-column>
 
-                <el-table-column prop="prevFireTime" label="上次执行时间"></el-table-column>
+                <el-table-column prop="prevFireTime" label="上次执行" :formatter="dateFormat"></el-table-column>
 
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
                         <el-row>
-                            <el-button size="small" type="warning" @click="handlePause(scope.$index, scope.row)">暂停
+                            <el-button v-if="scope.row.triggerState!='PAUSED'" size="small" type="warning" @click="handlePause(scope.$index, scope.row)">暂停
                             </el-button>
 
-                            <el-button size="small" type="info" @click="handleResume(scope.$index, scope.row)">恢复
+                            <el-button v-if="scope.row.triggerState=='PAUSED'" size="small" type="info" @click="handleResume(scope.$index, scope.row)">恢复
+                            </el-button>
+
+                            <el-button size="small" type="info" @click="doJob(scope.$index, scope.row)">执行
                             </el-button>
                         </el-row>
                         <el-row>
@@ -183,6 +186,7 @@ export default {
             })
         },
         handleResume(index, row){
+            console.log(row)
             let data = {
                 "jobClass": row.jobClass,
                 "jobGroup": row.jobGroup
@@ -190,11 +194,13 @@ export default {
             jobApi.resumeJob(data).then(ret => {
                 console.log(ret)
                 this.$message.success("恢复成功！");
+                this.initialization();
             }).catch(err => {
                 this.$message.error(err.data.message);
             })
         },
         handlePause(index, row){
+            console.log(row)
             let data = {
                 "jobClass": row.jobClass,
                 "jobGroup": row.jobGroup
@@ -202,6 +208,7 @@ export default {
             jobApi.pauseJob(data).then(ret => {
                 console.log(ret)
                 this.$message.success("暂停成功！");
+                this.initialization();
             }).catch(err => {
                 this.$message.error(err.data.message);
             })
@@ -227,12 +234,24 @@ export default {
             jobApi.doJob(data).then(ret => {
                 console.log(ret)
                 this.$message.success("执行成功！");
-                this.initialization();
             }).catch(err => {
                 this.$message.error(err.data.message);
             })
+        },
+        dateFormat(row, column,cellValue){
+            //var date = row[column.property];
+            if (cellValue == undefined || cellValue == null || cellValue === 0) {
+                return "-";  
+            }
+            var date = new Date(cellValue)
+            var y = 1900 + date.getYear()
+            var m = "0" + (date.getMonth() + 1)
+            var d = "0" + date.getDate()
+            var h = "0" + date.getHours()
+            var f = "0" + date.getMinutes()
+            var s = "0" + date.getSeconds()
+            return `${y}-${m.substring(m.length - 2,m.length)}-${d.substring(d.length - 2,d.length)} ${h.substring(h.length - 2,h.length)}:${f.substring(f.length - 2,f.length)}:${s.substring(s.length - 2,s.length)}`
         }
-
     },
     watch: {
         $route() {
