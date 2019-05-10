@@ -7,29 +7,29 @@
         </el-row>
         <el-main>
             <el-table :data="jobList" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="jobName" label="任务名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="name" label="任务名称"></el-table-column>
 
-                <el-table-column prop="jobGroup" label="任务组"></el-table-column>
+                <el-table-column prop="group" label="任务组"></el-table-column>
 
-                <!-- <el-table-column prop="jobClass" label="任务类名"></el-table-column> -->
+                <el-table-column prop="className" label="任务类全路径" show-overflow-tooltip></el-table-column>
 
                 <!-- <el-table-column prop="triggerName" label="触发器名称"></el-table-column> -->
 
                 <!-- <el-table-column prop="triggerGroup" label="触发器组"></el-table-column> -->
 
-                <el-table-column prop="cornExpression" label="表达式"></el-table-column>
+                <el-table-column prop="cron" label="表达式"></el-table-column>
 
-                <el-table-column prop="triggerState" label="状态"></el-table-column>
+                <el-table-column prop="status" label="状态" :formatter="statusFormat"></el-table-column>
 
-                <el-table-column prop="prevFireTime" label="上次执行" :formatter="dateFormat"></el-table-column>
+                <el-table-column prop="prevTime" label="上次执行" :formatter="dateFormat"></el-table-column>
 
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
                         <el-row>
-                            <el-button v-if="scope.row.triggerState!='PAUSED'" size="small" type="warning" @click="handlePause(scope.$index, scope.row)">暂停
+                            <el-button v-if="scope.row.status==1" size="small" type="warning" @click="handlePause(scope.$index, scope.row)">暂停
                             </el-button>
 
-                            <el-button v-if="scope.row.triggerState=='PAUSED'" size="small" type="info" @click="handleResume(scope.$index, scope.row)">恢复
+                            <el-button v-if="scope.row.status==2" size="small" type="info" @click="handleResume(scope.$index, scope.row)">恢复
                             </el-button>
 
                             <el-button size="small" type="info" @click="doJob(scope.$index, scope.row)">执行
@@ -53,13 +53,16 @@
         <el-dialog title="添加任务" :visible.sync="addFormVisible">
             <el-form :model="form">
                 <el-form-item label="任务名称" label-width="120px" style="width:50%">
-                    <el-input v-model="form.jobClass" auto-complete="off"></el-input>
+                    <el-input v-model="form.name" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="类全路径" label-width="120px" style="width:50%">
+                    <el-input v-model="form.className" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="任务分组" label-width="120px" style="width:50%">
-                    <el-input v-model="form.jobGroup" auto-complete="off"></el-input>
+                    <el-input v-model="form.group" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="表达式" label-width="120px" style="width:50%">
-                    <el-input v-model="form.cronExpression" auto-complete="off"></el-input>
+                    <el-input v-model="form.cron" auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -72,7 +75,7 @@
         <el-dialog title="修改任务" :visible.sync="updateFormVisible">
             <el-form :model="updateform">
                 <el-form-item label="表达式" label-width="120px" style="width:50%">
-                    <el-input v-model="updateform.cronExpression" auto-complete="off"></el-input>
+                    <el-input v-model="updateform.cron" auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -102,14 +105,16 @@ export default {
         updateFormVisible: false,
         //提交的表单
         form: {
-            jobClass: '',
-            jobGroup: '',
-            cronExpression: '',
+            name: '',
+            className: '',
+            group: '',
+            cron: ''
         },
         updateform: {
-            jobClass: '',
-            jobGroup: '',
-            cronExpression: '',
+            id: '',
+            name: '',
+            group: '',
+            cron: '',
         }
       }
     },
@@ -153,9 +158,10 @@ export default {
         },
         add(){
             let data = {
-                jobClass: this.form.jobClass,
-                jobGroup: this.form.jobGroup,
-                cronExpression: this.form.cronExpression
+                name: this.form.name,
+                className: this.form.className,
+                group: this.form.group,
+                cron: this.form.cron
             };
             jobApi.addJob(data).then(ret => {
                 console.log(ret)
@@ -168,14 +174,17 @@ export default {
         showUpdate(index, row){
             console.log(row)
             this.updateFormVisible = true;
-            this.updateform.jobClass = row.jobClass;
-            this.updateform.jobGroup = row.jobGroup;
+            this.updateform.id = row.id;
+            this.updateform.name = row.name;
+            this.updateform.group = row.group;
+            this.updateform.cron = row.cron;
         },
         update(){
             let data = {
-                jobClass: this.updateform.jobClass,
-                jobGroup: this.updateform.jobGroup,
-                cronExpression: this.updateform.cronExpression
+                id: this.updateform.id,
+                name: this.updateform.name,
+                group: this.updateform.group,
+                cron: this.updateform.cron
             };
             jobApi.updateJob(data).then(ret => {
                 console.log(ret)
@@ -188,8 +197,7 @@ export default {
         handleResume(index, row){
             console.log(row)
             let data = {
-                "jobClass": row.jobClass,
-                "jobGroup": row.jobGroup
+                "className": row.className
             };
             jobApi.resumeJob(data).then(ret => {
                 console.log(ret)
@@ -202,8 +210,7 @@ export default {
         handlePause(index, row){
             console.log(row)
             let data = {
-                "jobClass": row.jobClass,
-                "jobGroup": row.jobGroup
+                "className": row.className
             };
             jobApi.pauseJob(data).then(ret => {
                 console.log(ret)
@@ -215,8 +222,7 @@ export default {
         },
         handleDelete(index, row){
             let data = {
-                "jobClass": row.jobClass,
-                "jobGroup": row.jobGroup
+                "id": row.id
             };
             jobApi.deleteJob(data).then(ret => {
                 console.log(ret)
@@ -228,8 +234,8 @@ export default {
         },
         doJob(index, row){
             let data = {
-                "jobClass": row.jobClass,
-                "jobGroup": row.jobGroup
+                "name": row.name,
+                "group": row.group
             };
             jobApi.doJob(data).then(ret => {
                 console.log(ret)
@@ -243,7 +249,7 @@ export default {
             if (cellValue == undefined || cellValue == null || cellValue === 0) {
                 return "-";  
             }
-            var date = new Date(cellValue)
+            var date = new Date(cellValue * 1000)
             var y = 1900 + date.getYear()
             var m = "0" + (date.getMonth() + 1)
             var d = "0" + date.getDate()
@@ -251,6 +257,15 @@ export default {
             var f = "0" + date.getMinutes()
             var s = "0" + date.getSeconds()
             return `${y}-${m.substring(m.length - 2,m.length)}-${d.substring(d.length - 2,d.length)} ${h.substring(h.length - 2,h.length)}:${f.substring(f.length - 2,f.length)}:${s.substring(s.length - 2,s.length)}`
+        },
+        statusFormat(row, column, cellValue){
+            if (cellValue == 1){
+                return "正常"
+            } else if (cellValue == 2){
+                return "暂停"
+            } else {
+                return "正常";
+            }
         }
     },
     watch: {
