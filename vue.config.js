@@ -9,7 +9,8 @@ module.exports = {
                 algorithm: 'gzip',
                 test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
                 threshold: 10240,
-                minRatio: 0.8
+                minRatio: 0.8,
+                deleteOriginalAssets:true
             }))
 
             config.externals = {
@@ -25,5 +26,8 @@ module.exports = {
     devServer: {
         port: 8081,     // 端口
     },
+
+    productionSourceMap: false
+
     //lintOnSave: false   // 取消 eslint 验证
 };
