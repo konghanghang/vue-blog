@@ -1,5 +1,7 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+// import Vue from 'vue'
+const Vue = window.Vue
+// import VueRouter from 'vue-router'
+const VueRouter = window.VueRouter
 import routers from './router'
 
 Vue.use(VueRouter)
