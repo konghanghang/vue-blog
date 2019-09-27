@@ -1,7 +1,7 @@
-// import Vue from 'vue'
-const Vue = window.Vue
-// import Vuex from 'vuex'
-const Vuex = window.Vuex
+import Vue from 'vue'
+//const Vue = window.Vue
+import Vuex from 'vuex'
+//const Vuex = window.Vuex
 import user from './modules/user'
 import article from './modules/article'
 import loadMore from './modules/loadMore'

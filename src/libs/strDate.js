@@ -1,5 +1,5 @@
-// import Vue from 'vue'
-const Vue = window.Vue
+import Vue from 'vue'
+//const Vue = window.Vue
 
 Vue.filter('strDate',(timestamp) => {
   if (!timestamp) return ''

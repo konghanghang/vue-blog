@@ -1,5 +1,5 @@
-//import axios from 'axios'
-const axios = window.axios
+import axios from 'axios'
+//const axios = window.axios
 
 
 let util = {
