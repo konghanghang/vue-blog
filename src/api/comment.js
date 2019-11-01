@@ -3,16 +3,7 @@ import fetch from './fetch';
 export default {
   //新建评论
   new(data) {
-    
-    let params = {
-      content:data.content,
-      articleId:data.articleId,
-      replayId:data.replayId || 0,
-    }
-    if(data.ReplayTo) {
-      params.ReplayTo = data.ReplayTo
-    }
-    return fetch.post('/article/comment', params)
+    return fetch.post('/article/comment', data)
   },
   
   //评论列表

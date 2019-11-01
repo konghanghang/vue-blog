@@ -7,7 +7,7 @@
   		<el-button size="medium" @click="addArticle" type="primary">写文章</el-button>
   		
   		
-  		<el-dropdown v-if="user.userId" @command="handleCommand">
+  		<el-dropdown v-if="user.id" @command="handleCommand">
 			  <div class="head-box flex align-center pointer">
 	  			<img src="../assets/images/head.jpg" />
 	  			<span class="margin-left nowrap">{{user.nickName}}</span>
@@ -41,7 +41,7 @@ export default {
   },
   
   mounted() {
-  	if(!this.user.userId && window.localStorage.getItem('jianbaba-token')) {
+  	if(!this.user.id && window.localStorage.getItem('jianbaba-token')) {
   		this.getUserInfo()
   	}
   },

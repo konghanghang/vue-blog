@@ -174,7 +174,7 @@ export default {
         mdContent: this.form.mdContent,
         description: this.description,
         coverImage: this.form.coverImage,
-        articleId: this.$route.params.articleId
+        id: this.$route.params.articleId
       };
 
       article.edit(data).then(ret => {

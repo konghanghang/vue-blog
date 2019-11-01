@@ -24,11 +24,11 @@
 			    	文章列表
 			    	<ol>
 			    		<li v-for="(article,index) in articleList" :key = "index">
-		    				<router-link :to="{path:'/article/' + article.articleId}">{{article.title}}</router-link>
+		    				<router-link :to="{path:'/article/' + article.id}">{{article.title}}</router-link>
 			    			<span class="fl-r">
 			    				{{article.createDate | strDate}}
 			    				
-			    				<el-button @click="goEdit(article.articleId)" :disabled="loading" type="primary" size="mini" class="margin-left-lg">修改</el-button>
+			    				<el-button @click="goEdit(article.id)" :disabled="loading" type="primary" size="mini" class="margin-left-lg">修改</el-button>
 			    				<el-button @click="del(article)" :disabled="loading" size="mini">删除</el-button>
 			    			</span>
 			    		</li>
@@ -174,12 +174,12 @@ export default {
     
     del(art) {
     	this.loading = true
-    	article.delete(art.refArticleId).then(ret => {
+    	article.delete(art.id).then(ret => {
     		this.$message({
           message: "删除成功",
           type: "success"
         });
-    		this.articleList = this.articleList.filter(l => l.articleId != art.articleId)
+    		this.articleList = this.articleList.filter(l => l.id != art.id)
     		this.loading = false
     	}).catch(err => {
 				this.$message.error(err.data.message);

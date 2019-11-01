@@ -89,8 +89,11 @@ export default {
     return Util.ajax({
       method: 'patch',
       url: url,
-      data: qs.stringify(data),
-      timeout: 30000
+      data: JSON.stringify(data),
+      timeout: 30000,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
     })
   }
 }

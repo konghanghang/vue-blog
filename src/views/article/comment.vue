@@ -24,11 +24,11 @@
         <div class="flex align-center">
           <img class="head2" src="../../assets/images/head.jpg">
           <div>
-            <p>{{comment.userInfo.nickname}}</p>
+            <p>{{comment.nickname}}</p>
             <p class="font12 fontcolor2">
-              {{`${comment.floor}楼`}}
+              {{`${commentList.length - index}楼`}}
               <span class="margin-left">
-                {{comment.createDate | strDate}}
+                {{comment.createTime}}
               </span>
             </p>
           </div>
@@ -47,17 +47,17 @@
         </div>
 
         <div class="child-comment-box margin-top">
-          <div v-for="(child,index) in comment.replayComment" class="child-comment" :key="index">
+          <div v-for="(child,index) in comment.replayComment.list" class="child-comment" :key="index">
             <p>
-              <span class="name pointer">{{child.userInfo.nickname}}</span> 
-              <span v-if="child.userInfo.userId == child.replayUserInfo.userId">：{{child.content}}</span>
+              <span class="name pointer">{{child.nickname}}</span> 
+              <span v-if="child.id == child.toId">：{{child.content}}</span>
               <span v-else>：
-                <span class="name pointer">{{`@${child.replayUserInfo.nickname} `}}</span>
+                <span class="name pointer">{{`@${child.toNickname} `}}</span>
                 <span>{{child.content}}</span>
               </span>
             </p>
             <div class="padding-all-xs font12 fontcolor2">
-              {{child.createDate | strDate}}
+              {{child.createTime}}
               <span @click="openChildComment(comment,child)" class="margin-left pointer">回复</span>
             </div>
           </div>
@@ -97,9 +97,7 @@
         child_form: {
           placeholder:'写下你的评论~',
           content:'',
-          articleId:this.articleId,
-          replayId:'',
-          ReplayTo:''
+          articleId:this.articleId
         },
         showBtn: false,
         commentList:[],
@@ -131,22 +129,28 @@
           console.log(ret)
           ret.data.data.list.forEach(v => {
             v.is_comment = false
+            console.log(v)
           })
+          console.log(ret.data.data.list)
           this.commentList = ret.data.data.list
           this.page = ret.data.data.pageModel
         }).catch(err => {
+          console.log(err.data)
           this.$message.error(err.data.message);
         })
       },
       
       openChildComment(comment,child) {
+        console.log(child)
         if(child) {
-          this.child_form.replayId = child.commentId
-          this.child_form.ReplayTo = child.userInfo.userId
-          this.child_form.placeholder = `@${child.userInfo.nickname}`
+          this.child_form.toId = child.id
+          this.child_form.toUser = child.createUser
+          this.child_form.levelId = comment.id
+          this.child_form.placeholder = `@${child.nickname}`
         } else {
-          this.child_form.replayId = comment.commentId
-          this.child_form.ReplayTo = comment.createUser
+          this.child_form.toId = comment.id
+          this.child_form.toUser = comment.createUser
+          this.child_form.levelId = comment.id
           this.child_form.placeholder = '写下你的评论~'
         }
         comment.is_comment = true
@@ -156,15 +160,15 @@
         let data = {}
         if(type == 'article') {
           data = {
-            content:this.content,
+            content: this.content,
             articleId: this.articleId,
-            replayId: 0
+            toUser: 0,
+            toId: 0
           }
         }
         if(type == 'user') {
           data = this.child_form
         }
-        
         comment.new(data).then(ret => {
           console.log(ret)
           this.$message({

@@ -9,7 +9,7 @@
         <div class="flex align-center mes-head">
           <img class="head" src="../../assets/images/head.jpg">
           <span class="margin-left-xs">{{detail.author}}</span>
-          <span class="margin-left fontcolor2">{{detail.createDate | strDate}}</span>
+          <span class="margin-left fontcolor2">{{detail.createTime}}</span>
           <span class="tag margin-left">{{detail.classification}}</span>
         </div>
       </el-col>

@@ -36,7 +36,7 @@
               <el-col :span="17">
                 <!--标题-->
                 <h3 style="margin-top: 12px;margin-bottom: 12px;">
-									<router-link tag="a" class="title" :to="{name:'detail',params:{id:mes.articleId}}">{{mes.title}}</router-link>
+									<router-link tag="a" class="title" :to="{name:'detail',params:{id:mes.id}}">{{mes.title}}</router-link>
 								</h3>
 
                 <!--正文-->
@@ -51,9 +51,9 @@
             <el-col :span="24" class="margin-top">
               <div class="flex align-center mes-bottom font12">
                 <span class="tag">{{mes.classification}}</span>
-                <span class="margin-left fontcolor2">已读：{{mes.countView}}</span>
+                <!-- <span class="margin-left fontcolor2">已读：{{mes.countView}}</span>
                 <span class="margin-left fontcolor2">评论：{{mes.countComment}}</span>
-                <span class="margin-left fontcolor2">收藏：{{mes.countCollection}}</span>
+                <span class="margin-left fontcolor2">收藏：{{mes.countCollection}}</span> -->
               </div>
             </el-col>
           </el-col>
