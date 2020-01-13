@@ -11,7 +11,21 @@
   	</div>
   	
   	<music></music>
-  	
+
+    <div class="wrapper">
+        <a class="logo" href="#">Chase</a>
+        <div class="footer-left">
+            <p class="copyright">Copyright 2020 &copy; 备案号： <a href="http://www.beian.miit.gov.cn/" target="_blank" title="粤ICP备18128459号-1">粤ICP备18128459号-1</a></p>
+            <p class="footer-links"><a href="#">Contact Us</a> I <a href="#">Terms &amp; Conditions</a> I<a href="#">Privacy</a></p>
+        </div>
+        <!-- <div class="footer-right">
+            <a href="#" class="social facebook">Facebook</a>
+            <a href="#" class="social twitter">Facebook</a>
+            <a href="#" class="social google">Facebook</a>
+        </div> -->
+        <div class="clear"></div>
+    </div>
+
   	<div v-if="$store.state.dot" class="mask">
       <div class="rotate-loading">
         <div class="rotate-loading2">
@@ -28,15 +42,17 @@
 <script>
 	
 import mainNav from './components/nav'
+import footer from './components/footer'
 import loading from './components/loadingBar'
 import music from './components/music'
 
 export default {
   name: 'app',
   components: {
-		mainNav,
+    mainNav,
+    footer,
 		loading,
-		music
+    music
 	},
 	created() {
 	}
