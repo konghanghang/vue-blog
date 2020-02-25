@@ -27,9 +27,10 @@ module.exports = {
     },
 
     devServer: {
-        port: 8081,     // 端口
-    },
-
+		port: 8081, // 端口
+		open: true,
+		proxy: 'https://api.iminling.com/v1'
+	},
     productionSourceMap: false,
 
     lintOnSave: false   // 取消 eslint 验证

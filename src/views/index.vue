@@ -51,9 +51,9 @@
             <el-col :span="24" class="margin-top">
               <div class="flex align-center mes-bottom font12">
                 <span class="tag">{{mes.classification}}</span>
-                <!-- <span class="margin-left fontcolor2">已读：{{mes.countView}}</span>
-                <span class="margin-left fontcolor2">评论：{{mes.countComment}}</span>
-                <span class="margin-left fontcolor2">收藏：{{mes.countCollection}}</span> -->
+                <span class="margin-left fontcolor2">已读：{{mes.countView || 0}}</span>
+                <span class="margin-left fontcolor2">评论：{{mes.countComment || 0}}</span>
+                <span class="margin-left fontcolor2">收藏：{{mes.countCollection || 0}}</span>
               </div>
             </el-col>
           </el-col>
@@ -72,7 +72,7 @@
             <img :src="getImage(article.coverImage) + '?imageView2/2/w/80'">
           </el-col>
           <el-col :span="17" :offset="1" class="flex align-center">
-            <router-link :to="{path:'/article/get/' + article.articleId}">{{article.title}}</router-link>
+            <router-link :to="{path:'/article/' + article.id}" style="color:#333;">{{article.title}}</router-link>
           </el-col>
         </el-col>
         
