@@ -12,6 +12,10 @@ const login = () => import('../views/login.vue')
 const userInfo = () => import('../views/user/index.vue')
 // 个人中心文章
 const userArticle = () => import('../views/user/index.vue')
+// 个人中心我的回复
+const myReplay = () => import('../views/user/index.vue')
+// 个人中心回复我的
+const received = () => import('../views/user/index.vue')
 // 列表展示
 const mensesShow = () => import('../views/menses/show.vue')
 // 任务列表展示
@@ -72,6 +76,18 @@ const routes = [
     path: '/user/index/article/:page',
     name:'userArticle',
     component:userArticle
+  },
+  {
+    /*个人中心我的回复*/
+    path: '/user/index/article/replay/:page',
+    name:'myReplay',
+    component: myReplay
+  },
+  {
+    /*个人中心回复我的*/
+    path: '/user/index/article/received/:page',
+    name:'received',
+    component: received
   },
   {
     /*列表展示*/

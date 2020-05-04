@@ -49,7 +49,7 @@ const actions = {
 
       article.list(page).then(ret => {
         console.log(456,ret)
-        commit('setArticleList',ret.data.data)
+        commit('setArticleList',ret.data)
         resolve(ret);
       }).catch(err => {
         reject(err);
@@ -65,8 +65,8 @@ const actions = {
     return new Promise((resolve, reject) => {
 
       article.detail(rootState.route.params.id).then(ret => {
-        commit("setArticleDetail", ret.data.data);
-        console.log('详情',ret.data.data)
+        commit("setArticleDetail", ret.data);
+        console.log('详情',ret.data)
         resolve(ret);
       }).catch(err => {
         reject(err);

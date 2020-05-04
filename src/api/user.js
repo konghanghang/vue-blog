@@ -9,12 +9,15 @@ export default {
 			username:data.username,
 			password:data.password
 		}
-		return fetch.post('/user/login', params)
+		return fetch.postJson('/user/login', params)
 	},
 	
 	//注册
 	register(data) {
-		return fetch.post('/user/register',data)
+		let params = {
+			"accountVO": data
+		}
+		return fetch.postJson('/user/register', params)
 	},
 	
 	//获取用户信息

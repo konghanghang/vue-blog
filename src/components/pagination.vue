@@ -27,14 +27,14 @@ export default {
   created() {
    	//初始化分页参数
    	if(this.pageModel.total) {
-   		this.page = this.pageModel
+		   this.page = this.pageModel
    	} else {
    		this.page = {
    			pageSize:5,
    			pageNum:1,
    			total:10
    		}
-   	}
+	   }
   },
 
   methods: {

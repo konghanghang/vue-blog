@@ -118,20 +118,20 @@ export default {
 
                 this.$store.commit("setSubmit", false);
               }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
                 this.$store.commit("setSubmit", false);
               });
           } else {
             user.login(this.loginForm).then(ret => {
                 console.log("登录成功", ret);
-                window.localStorage.setItem("jianbaba-token", ret.data.message);
-                window.localStorage.setItem('jianbaba-userInfo',JSON.stringify(ret.data.data))
+                window.localStorage.setItem("jianbaba-token", ret.data.token);
+                window.localStorage.setItem('jianbaba-userInfo',JSON.stringify(ret.data.user))
                 this.$message({
                   message: "登录成功",
                   type: "success"
                 });
                 this.$store.commit("setSubmit", false);
-                this.$store.commit("setUserInfo", ret.data.data);
+                this.$store.commit("setUserInfo", ret.data.user);
                 if (this.$route.query.target_url) {
                   window.location.href =
                     "" + decodeURIComponent(this.$route.query.target_url);

@@ -152,7 +152,7 @@
         let _this = this;
         return new Promise(function(resolve, reject) {
           article.careChosenList().then(ret => {
-              _this.careChosenList = ret.data.data;
+              _this.careChosenList = ret.data;
               resolve();
             })
             .catch(err => {

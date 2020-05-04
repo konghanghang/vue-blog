@@ -156,13 +156,13 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.data.id
+              id: ret.data.result
             }
           });
         }).catch(err => {
           this.$store.commit("setSubmit", false);
           console.log(err);
-          this.$message.error(err.data.message);
+          this.$message.error(err.message);
         });
     },
 
@@ -190,14 +190,14 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.data
+              id: ret.data.result
             }
           });
         })
         .catch(err => {
           this.$store.commit("setSubmit", false);
           console.log(err);
-          this.$message.error(err.data.message);
+          this.$message.error(err.message);
         });
     },
 
@@ -206,12 +206,12 @@ export default {
     	this.$store.commit("updateLoad", true);
       article.detail(this.$route.params.articleId).then(ret => {
           console.log(123, ret);
-          this.form = ret.data.data;
-					this.defaultUrl = ret.data.data.coverImage
+          this.form = ret.data;
+					this.defaultUrl = ret.data.coverImage
           this.$store.commit("updateLoad", false);
         })
         .catch(err => {
-          this.$message.error(err.data.message);
+          this.$message.error(err.message);
           this.$store.commit("updateLoad", false);
         });
     },

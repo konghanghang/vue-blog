@@ -18,7 +18,20 @@
 	  	<el-row>
 	  		<el-col :span="24">
 	  			<template v-if="$route.name == 'userInfo'">
-			    	{{user}}
+			    	<div class="demo-input-suffix">
+						用户名：
+						<el-input v-model="user.username">
+						</el-input>
+					</div>
+					<div class="demo-input-suffix">
+						用户昵称：
+						<el-input v-model="user.nickname">
+						</el-input>
+						邮箱：
+						<el-input v-model="user.email">
+							
+						</el-input>
+					</div>
 			    </template>
 			    <template v-if="$route.name == 'userArticle'">
 			    	文章列表
@@ -26,7 +39,7 @@
 			    		<li v-for="(article,index) in articleList" :key = "index">
 		    				<router-link :to="{path:'/article/' + article.id}">{{article.title}}</router-link>
 			    			<span class="fl-r">
-			    				{{article.createDate | strDate}}
+			    				{{article.createTime}}
 			    				
 			    				<el-button @click="goEdit(article.id)" :disabled="loading" type="primary" size="mini" class="margin-left-lg">修改</el-button>
 			    				<el-button @click="del(article)" :disabled="loading" size="mini">删除</el-button>
@@ -35,6 +48,47 @@
 			    	</ol>
 			    	
 			    	<pagination :pageModel="articlePage"></pagination>
+			    	
+			    </template>
+				<template v-if="$route.name == 'myReplay'">
+			    	我的回复
+			    	<ol>
+			    		<li v-for="(comment,index) in replayList" :key = "index">
+							<span>在文章［</span>
+		    				<router-link :to="{path:'/article/' + comment.articleId}">{{comment.title}}</router-link>
+							<span>］中，回复</span>
+							<span v-if="comment.toId === '0'">[{{comment.content}}]</span>
+							<span v-else>用户［{{comment.replayToName}}］:[{{comment.content}}]</span>
+			    			<span class="fl-r">
+			    				{{comment.createTime}}
+			    				
+<!-- 			    				<el-button @click="goEdit(article.id)" :disabled="loading" type="primary" size="mini" class="margin-left-lg">修改</el-button>
+			    				<el-button @click="del(article)" :disabled="loading" size="mini">删除</el-button> -->
+			    			</span>
+			    		</li>
+			    	</ol>
+			    	
+			    	<pagination :pageModel="replayPage"></pagination>
+			    	
+			    </template>
+				<template v-if="$route.name == 'received'">
+			    	收到评论
+			    	<ol>
+			    		<li v-for="(comment,index) in receivedList" :key = "index">
+							<span>用户[</span>{{comment.replayName}}<span>]在文章[</span>
+		    				<router-link :to="{path:'/article/' + comment.articleId}">{{comment.title}}</router-link>
+							<span>］中，回复</span>
+							[{{comment.content}}]
+			    			<span class="fl-r">
+			    				{{comment.createTime}}
+			    				
+<!-- 			    				<el-button @click="goEdit(article.id)" :disabled="loading" type="primary" size="mini" class="margin-left-lg">修改</el-button>
+			    				<el-button @click="del(article)" :disabled="loading" size="mini">删除</el-button> -->
+			    			</span>
+			    		</li>
+			    	</ol>
+			    	
+			    	<pagination :pageModel="receivedPage"></pagination>
 			    	
 			    </template>
 	  		</el-col>
@@ -48,6 +102,7 @@
 
 <script>
 import article from "../../api/article"
+import comment from "../../api/comment"
 import "../../libs/strDate"
 import pagination from "../../components/pagination"
 import {mapState, mapActions} from 'vuex'
@@ -78,19 +133,25 @@ export default {
           }
         },
         {
-          index:'3',
+          index:'myReplay',
           title:'我的回复',
           icon:'el-icon-edit-outline',
           route:{
-            name:this.$route.name
+			name:'myReplay',
+			params:{
+              page:1
+            }
           }
         },
         {
-          index:'4',
+          index:'received',
           title:'收到评论',
           icon:'el-icon-star-off',
           route:{
-            name:this.$route.name
+			name: 'received',
+			params:{
+              page:1
+            }
           }
         },
         {
@@ -112,7 +173,11 @@ export default {
       ],
       
       articleList:[],
-      articlePage:{},
+	  articlePage:{},
+	  replayList:[],
+	  replayPage:{},
+	  receivedList:[],
+      receivedPage:{},
       loading:false
     };
   },
@@ -136,7 +201,11 @@ export default {
   	initialization() {
   		if(this.$route.name == 'userArticle') {
   			this.getMyArticle()
-  		}
+  		} else if (this.$route.name == 'myReplay') {
+			  this.getReplay()
+		  } else if (this.$route.name == 'received') {
+			  this.received()
+		  }
   	},
   	
     async getMyArticle() {
@@ -153,12 +222,12 @@ export default {
     	this.$store.commit("updateLoad", true);
     	try {
     	  const ret = await article.self(this.page)
-    	  this.articleList = ret.data.data.list
-        this.articlePage = ret.data.data.pageModel
-        this.$store.commit("updateLoad", false);
+    	  this.articleList = ret.data.list
+          this.articlePage = ret.data.pageModel
+          this.$store.commit("updateLoad", false);
     	} catch(err) {
     	  console.log(err)
-    	  //this.$message.error(err.data.message);
+    	  this.$message.error(err.message);
         this.$store.commit("updateLoad", false);
     	}
     },
@@ -182,10 +251,38 @@ export default {
     		this.articleList = this.articleList.filter(l => l.id != art.id)
     		this.loading = false
     	}).catch(err => {
-				this.$message.error(err.data.message);
+				this.$message.error(err.message);
     		this.loading = false
     	})
-    }
+	},
+
+	async getReplay() {
+		this.$store.commit("updateLoad", true);
+    	try {
+    	  const ret = await comment.myReplay(this.page)
+    	  this.replayList = ret.data.list
+          this.replayPage = ret.data.pageModel
+          this.$store.commit("updateLoad", false);
+    	} catch(err) {
+    	  console.log(err)
+    	  this.$message.error(err.message);
+        this.$store.commit("updateLoad", false);
+    	}
+	},
+
+	async received() {
+		this.$store.commit("updateLoad", true);
+    	try {
+    	  const ret = await comment.received(this.page)
+    	  this.receivedList = ret.data.list
+		  this.rreceivedPage = ret.data.pageModel
+          this.$store.commit("updateLoad", false);
+    	} catch(err) {
+    	  console.log(err)
+    	  this.$message.error(err.message);
+        this.$store.commit("updateLoad", false);
+    	}
+	}
   },
   
   watch: {

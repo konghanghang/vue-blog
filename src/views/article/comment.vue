@@ -127,16 +127,16 @@
         
         comment.list(data).then(ret => {
           console.log(ret)
-          ret.data.data.list.forEach(v => {
+          ret.data.list.forEach(v => {
             v.is_comment = false
             console.log(v)
           })
-          console.log(ret.data.data.list)
-          this.commentList = ret.data.data.list
-          this.page = ret.data.data.pageModel
+          console.log(ret.data.list)
+          this.commentList = ret.data.list
+          this.page = ret.data.pageModel
         }).catch(err => {
           console.log(err.data)
-          this.$message.error(err.data.message);
+          this.$message.error(err.message);
         })
       },
       
@@ -179,7 +179,7 @@
           this.child_content = ''
           this.getCommentList()
         }).catch(err => {
-          this.$message.error(err.data.message);
+          this.$message.error(err.message);
         })
       },
       

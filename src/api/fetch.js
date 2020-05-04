@@ -14,8 +14,7 @@ Util.ajax.interceptors.request.use(config => {
 })
 
 Util.ajax.interceptors.response.use(response => {
-
-  return response
+  return response.data
 }, error => {
 
   let response = error.response
@@ -28,7 +27,7 @@ Util.ajax.interceptors.response.use(response => {
     }
   }
   
-  return Promise.reject(response)
+  return Promise.reject(response.data)
 
 })
 
@@ -57,6 +56,18 @@ export default {
     })
   },
 
+  postJson(url, data) {
+    return Util.ajax({
+        method: 'post',
+        url: url,
+        data: JSON.stringify(data),
+        timeout: 30000,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+    })
+  },
+
   get(url, params) {
     return Util.ajax({
       method: 'get',
@@ -81,6 +92,18 @@ export default {
       timeout: 30000,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      }
+    })
+  },
+
+  putJson(url, data) {
+    return Util.ajax({
+      method: 'put',
+      url: url,
+      data: JSON.stringify(data),
+      timeout: 30000,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
       }
     })
   },

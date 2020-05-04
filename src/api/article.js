@@ -4,12 +4,18 @@ export default {
 
 	// 发布新文章
 	add(data) {
-		return fetch.post('/article',data)
+		let params = {
+			"articleVO": data
+		}
+		return fetch.postJson('/article',params)
 	},
 	
 	// 文章编辑
 	edit(data) {
-		return fetch.patch('/article',data)
+		let params = {
+			articleVO: data
+		}
+		return fetch.putJson('/article', params)
 	},
 	
 	//详情
@@ -19,7 +25,14 @@ export default {
 	
 	//文章列表
 	list(page) {
-		return fetch.get('/article?pageNo='+page)
+		let params = {
+			username: null,
+			pageModel: {
+				pageSize: 10,
+				pageNum: page
+			}
+		}
+		return fetch.postJson('/article/list', params)
 	},
 
 	//文章精选列表
@@ -28,9 +41,16 @@ export default {
 	},
 	
 	//我的文章
-	self(page,username) {
+	self(page) {
 		let user = JSON.parse(window.localStorage.getItem('jianbaba-userInfo'));
-		return fetch.get('/article?username=' + user.username + '&pageNo=' + page)
+		let params = {
+			username: user.username,
+			pageModel: {
+				pageSize: 10, 
+				pageNum: page
+			}
+		}
+		return fetch.postJson('/article/list', params)
 	},
 	
 	//删除文章

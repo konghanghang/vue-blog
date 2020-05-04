@@ -26,7 +26,7 @@ export default {
       uploadData: {},
       imageUrl:'',
       /*action:util.api + '/utils/image/upload'*/
-      action:'http://up-z2.qiniu.com',
+      action:'https://upload-z2.qiniup.com',
       token:''
     };
   },
@@ -66,7 +66,7 @@ export default {
         oFReader.readAsDataURL(file);
         oFReader.onload = function(oFREvent) {
           _this.uploadData = {
-            image: oFReader.result,
+            // image: oFReader.result,
             token: _this.token
           };
           resolve();
@@ -91,10 +91,10 @@ export default {
     },
     getToken() {
       common.getUploadToken().then(ret => {
-          console.log(ret);
-          let data = ret.data.data;
-          this.token = JSON.parse(data).token;
-          localStorage.setItem('qiniuToken', data);
+          console.log(ret.data);
+          let data = ret.data;
+          this.token = data.token;
+          localStorage.setItem('qiniuToken', JSON.stringify(data));
         }).catch(err => {
           console.log(err);
         });
