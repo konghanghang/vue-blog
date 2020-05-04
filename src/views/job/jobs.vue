@@ -21,7 +21,7 @@
 
                 <el-table-column prop="status" label="状态" :formatter="statusFormat"></el-table-column>
 
-                <el-table-column prop="prevTime" label="上次执行" :formatter="dateFormat"></el-table-column>
+                <el-table-column prop="prevTime" label="上次执行"></el-table-column>
 
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
@@ -142,11 +142,11 @@ export default {
           this.$store.commit("updateLoad", true);
             jobApi.queryJob(this.page).then(ret => {
                 console.log(ret)
-                this.jobList = ret.data.data.list
-                this.jobPage = ret.data.data.pageModel
+                this.jobList = ret.data.list
+                this.jobPage = ret.data.pageModel
                 this.$store.commit("updateLoad", false);
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
                 this.$store.commit("updateLoad", false);
             })
         },
@@ -168,7 +168,7 @@ export default {
                 this.initialization();
                 this.addFormVisible = false;
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         showUpdate(index, row){
@@ -191,45 +191,36 @@ export default {
                 this.initialization();
                 this.updateFormVisible = false;
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         handleResume(index, row){
             console.log(row)
-            let data = {
-                "className": row.className
-            };
-            jobApi.resumeJob(data).then(ret => {
+            jobApi.resumeJob(row.className).then(ret => {
                 console.log(ret)
                 this.$message.success("恢复成功！");
                 this.initialization();
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         handlePause(index, row){
             console.log(row)
-            let data = {
-                "className": row.className
-            };
-            jobApi.pauseJob(data).then(ret => {
+            jobApi.pauseJob(row.className).then(ret => {
                 console.log(ret)
                 this.$message.success("暂停成功！");
                 this.initialization();
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         handleDelete(index, row){
-            let data = {
-                "id": row.id
-            };
-            jobApi.deleteJob(data).then(ret => {
+            jobApi.deleteJob(row.id).then(ret => {
                 console.log(ret)
                 this.$message.success("删除成功！");
                 this.initialization();
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         doJob(index, row){
@@ -241,7 +232,7 @@ export default {
                 console.log(ret)
                 this.$message.success("执行成功！");
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
             })
         },
         dateFormat(row, column,cellValue){

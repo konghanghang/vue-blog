@@ -6,21 +6,33 @@ export default {
 		return fetch.get('/job/queryJob?pageNo='+page+'&pageSize='+20)
 	},
 	addJob(data){
-		return fetch.post("/job/addJob", data);
+		let params = {
+			jobVo: data
+		}
+		return fetch.postJson("/job/addJob", params);
 	},
 	updateJob(data){
-		return fetch.post("/job/updateJob", data);
+		let params = {
+			jobVo: data
+		}
+		return fetch.putJson("/job/updateJob", params);
 	},
 	pauseJob(data){
-		return fetch.post("/job/pauseJob", data);
+		let params = {
+			"className": data
+		};
+		return fetch.post("/job/pauseJob", params);
 	},
 	resumeJob(data){
-		return fetch.post("/job/resumeJob", data);
+		let params = {
+			"className": data
+		};
+		return fetch.post("/job/resumeJob", params);
 	},
 	deleteJob(data){
-		return fetch.post("/job/deleteJob", data);
+		return fetch.delete("/job/" + data);
 	},
 	doJob(data){
-		return fetch.post("/job/doJob", data);
+		return fetch.postJson("/job/doJob", data);
 	}
 }
