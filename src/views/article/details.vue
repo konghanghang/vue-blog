@@ -14,7 +14,7 @@
         </div>
       </el-col>
   
-      <el-col :span="24" class="padding-all-lg padding-left-lg padding-right-lg">
+      <el-col :span="24" class="markdown-body padding-all-lg padding-left-lg padding-right-lg">
         <div class="font15 content" v-html="detail.content"></div>
       </el-col>
       
@@ -31,6 +31,7 @@ import "../../libs/strDate";
 import sideTool from "../../components/side_tool"
 import comment from "./comment"
 import { mapState, mapActions } from "vuex"
+
 export default {
   components: {
     sideTool,

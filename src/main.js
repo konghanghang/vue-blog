@@ -13,6 +13,11 @@ import 'highlight.js/styles/monokai-sublime.css'
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(infiniteScroll)
 
+
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
+Vue.use(mavonEditor)
+
 Vue.config.productionTip = false
 
 new Vue({
