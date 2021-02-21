@@ -158,7 +158,7 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.result
+              id: ret.data
             }
           });
         }).catch(err => {
@@ -192,7 +192,7 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.result
+              id: ret.data
             }
           });
         })
