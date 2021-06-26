@@ -29,13 +29,13 @@
 import article from "../../api/article"
 import "../../libs/strDate";
 import sideTool from "../../components/side_tool"
-import comment from "./comment"
+//import comment from "./comment"
 import { mapState, mapActions } from "vuex"
 
 export default {
   components: {
-    sideTool,
-    comment
+    sideTool//,
+    //comment
   },
   data() {
     return {
