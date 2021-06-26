@@ -19,7 +19,7 @@
       </el-col>
       
     </el-row>
-    <comment :articleId="$route.params.id"></comment>
+    <!-- <comment :articleId="$route.params.id"></comment> -->
     <sideTool :menus="menus"></sideTool>
   </div>
 
@@ -39,7 +39,8 @@ export default {
   },
   data() {
     return {
-      menus:['回到顶部','收藏','QQ分享']
+      // menus:['回到顶部','收藏','QQ分享']
+      menus:['回到顶部', 'QQ分享']
     };
   },
   

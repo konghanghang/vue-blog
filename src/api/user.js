@@ -17,11 +17,11 @@ export default {
 		let params = {
 			"accountVO": data
 		}
-		return fetch.postJson('/passport/register', params)
+		return fetch.postJson('/account/register', params)
 	},
 	
 	//获取用户信息
 	info() {
-		return fetch.get('/user/info')
+		return fetch.get('/account/info')
 	}
 }
