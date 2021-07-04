@@ -33,7 +33,7 @@
         </div>
         <div class="search-item">
           <div class="search-lable">
-            <el-button type="primary" @click="list">查询</el-button>
+            <el-button type="primary" @click="list(1)">查询</el-button>
           </div>
           <div class="search-lable">
             <el-button type="primary" @click="addExamFormVisible = true"
@@ -266,7 +266,7 @@ export default {
         begin: this.search.date ? this.search.date[0] : undefined,
         end: this.search.date ? this.search.date[1] : undefined,
         pageModel: {
-          pageNum: pageNum || 1,
+          pageNum: pageNum ? pageNum : 1,
           pageSize: this.examPage.pageSize ? this.examPage.pageSize : 10,
         },
       }
