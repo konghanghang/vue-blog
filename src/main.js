@@ -7,6 +7,7 @@ sync(store, router)
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+ElementUI.Dialog.props.closeOnClickModal.default = false
 Vue.use(ElementUI)
 
 import 'highlight.js/styles/monokai-sublime.css'
