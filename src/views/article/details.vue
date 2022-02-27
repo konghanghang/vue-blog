@@ -10,7 +10,7 @@
           <img class="head" src="../../assets/images/head.jpg">
           <span class="margin-left-xs">{{detail.author}}</span>
           <span class="margin-left fontcolor2">{{detail.createTime}}</span>
-          <span class="tag margin-left">{{detail.classification}}</span>
+          <span class="tag margin-left">{{detail.classification == undefined ? "未分类" : detail.classification}}</span>
         </div>
       </el-col>
   
