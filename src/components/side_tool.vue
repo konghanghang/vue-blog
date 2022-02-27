@@ -11,11 +11,11 @@
       </li>
     </el-tooltip>
     
-    <li @click="showMusic">
+    <!-- <li @click="showMusic">
       <svg class="music-icon" aria-hidden="true">
         <use xlink:href="#icon-music"></use>
       </svg>
-    </li>
+    </li> -->
   </ul>
 </template>
 
@@ -37,13 +37,13 @@
               this.goTop()
             }
           },
-          {
-            name:'收藏',
-            icon:'icon-shoucang',
-            click:() => {
-              this.collect()
-            }
-          },
+          // {
+          //   name:'收藏',
+          //   icon:'icon-shoucang',
+          //   click:() => {
+          //     this.collect()
+          //   }
+          // },
           {
             name:'QQ分享',
             icon:'icon-tubiao212',
@@ -79,10 +79,10 @@
         }else{
           this.show = false
         }
-      }*/
+      }
       if(this.$route.name == 'detail') {
         this.showMenu.find(m => m.name == '收藏').icon = this.detail.isCollect ? 'icon-shoucang1' : 'icon-shoucang'
-      }
+      }*/
     },
 
     methods: {
@@ -100,23 +100,29 @@
         }, 10)
       },
       
-      collect() {
-        let addNum = 1;
-        if(this.detail.isCollect){
-            addNum = -1;
-        }
-        let data = {
-          linkId:this.$route.params.id,
-          num: addNum
-        }
-        article.collect(data).then(ret => {
-          let detail = Object.assign({}, this.detail)
-          detail.isCollect = !detail.isCollect
-          this.$store.commit('setArticleDetail',detail)
-          console.log(ret)
-        }).catch(err => {
+      // collect() {
+      //   let addNum = 1;
+      //   if(this.detail.isCollect){
+      //       addNum = -1;
+      //   }
+      //   let data = {
+      //     linkId:this.$route.params.id,
+      //     num: addNum
+      //   }
+      //   article.collect(data).then(ret => {
+      //     let detail = Object.assign({}, this.detail)
+      //     detail.isCollect = !detail.isCollect
+      //     this.$store.commit('setArticleDetail',detail)
+      //     console.log(ret)
+      //   }).catch(err => {
           
-        })
+      //   })
+      // },
+      collect() {
+        this.$message({
+            message: "该功能暂未上线！",
+            type: "success"
+          });
       },
       
       getImage(url) {
@@ -143,15 +149,15 @@
         window.open(['http://connect.qq.com/widget/shareqq/index.html?',s.join('&')].join(''),'分享','top=100,left=100,width=800,height=600')
       },
       
-      showMusic() {
-        this.$store.commit('setPlayer',true)
-      }
+      // showMusic() {
+      //   this.$store.commit('setPlayer',true)
+      // }
     },
     
     watch: {
-      'detail.isCollect'() {
-        this.showMenu.find(m => m.name == '收藏').icon = this.detail.isCollect ? 'icon-shoucang1' : 'icon-shoucang'
-      }
+      // 'detail.isCollect'() {
+      //   this.showMenu.find(m => m.name == '收藏').icon = this.detail.isCollect ? 'icon-shoucang1' : 'icon-shoucang'
+      // }
     }
   }
 </script>

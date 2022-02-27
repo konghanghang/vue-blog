@@ -9,7 +9,7 @@ export default {
 			username:data.username,
 			password:data.password
 		}
-		return fetch.postJson('/user/login', params)
+		return fetch.postJson('/passport/login', params)
 	},
 	
 	//注册
@@ -17,11 +17,11 @@ export default {
 		let params = {
 			"accountVO": data
 		}
-		return fetch.postJson('/user/register', params)
+		return fetch.postJson('/account/register', params)
 	},
 	
 	//获取用户信息
 	info() {
-		return fetch.get('/user/info')
+		return fetch.get('/account/info')
 	}
 }

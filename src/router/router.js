@@ -20,6 +20,8 @@ const received = () => import('../views/user/index.vue')
 const mensesShow = () => import('../views/menses/show.vue')
 // 任务列表展示
 const jobs = () => import('../views/job/jobs.vue')
+// 试题题目
+const exam = () => import('../views/exam/exam.vue')
 
 const routes = [
   {
@@ -100,6 +102,12 @@ const routes = [
     path: '/jobs/:page',
     name:'jobs',
     component:jobs
+  },
+  {
+    /*列表展示*/
+    path: '/exam',
+    name:'exam',
+    component: exam
   }
 ]
 

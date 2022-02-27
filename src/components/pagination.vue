@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  props:['pageModel'],
+  props:['pageModel', 'noRouter'],
   data() {
     return {
       page:{}
@@ -34,20 +34,25 @@ export default {
    			pageNum:1,
    			total:10
    		}
-	   }
+	}
   },
 
   methods: {
     handleCurrentChange(page) {
-    	let query = Object.assign({},this.$route.query)
-    	let params = Object.assign({},this.$route.params)
-    	params.page = page
-    	
-    	this.$router.push({
-    		name:this.$route.name,
-    		query:query,
-    		params:params
-    	})
+		if (this.noRouter) {
+			console.log("noRouter", page)
+			this.$emit("change-page", page)
+		} else {
+			let query = Object.assign({},this.$route.query)
+			let params = Object.assign({},this.$route.params)
+			params.page = page
+			
+			this.$router.push({
+				name:this.$route.name,
+				query:query,
+				params:params
+			})
+		}
     }
   },
   

@@ -133,28 +133,6 @@ export default {
           }
         },
         {
-          index:'myReplay',
-          title:'我的回复',
-          icon:'el-icon-edit-outline',
-          route:{
-			name:'myReplay',
-			params:{
-              page:1
-            }
-          }
-        },
-        {
-          index:'received',
-          title:'收到评论',
-          icon:'el-icon-star-off',
-          route:{
-			name: 'received',
-			params:{
-              page:1
-            }
-          }
-        },
-        {
           index:'5',
           title:'消息通知',
           icon:'el-icon-message',

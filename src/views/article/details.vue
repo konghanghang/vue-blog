@@ -10,16 +10,16 @@
           <img class="head" src="../../assets/images/head.jpg">
           <span class="margin-left-xs">{{detail.author}}</span>
           <span class="margin-left fontcolor2">{{detail.createTime}}</span>
-          <span class="tag margin-left">{{detail.classification}}</span>
+          <span class="tag margin-left">{{detail.classification == undefined ? "未分类" : detail.classification}}</span>
         </div>
       </el-col>
   
-      <el-col :span="24" class="padding-all-lg padding-left-lg padding-right-lg">
+      <el-col :span="24" class="markdown-body padding-all-lg padding-left-lg padding-right-lg">
         <div class="font15 content" v-html="detail.content"></div>
       </el-col>
       
     </el-row>
-    <comment :articleId="$route.params.id"></comment>
+    <!-- <comment :articleId="$route.params.id"></comment> -->
     <sideTool :menus="menus"></sideTool>
   </div>
 
@@ -29,16 +29,18 @@
 import article from "../../api/article"
 import "../../libs/strDate";
 import sideTool from "../../components/side_tool"
-import comment from "./comment"
+//import comment from "./comment"
 import { mapState, mapActions } from "vuex"
+
 export default {
   components: {
-    sideTool,
-    comment
+    sideTool//,
+    //comment
   },
   data() {
     return {
-      menus:['回到顶部','收藏','QQ分享']
+      // menus:['回到顶部','收藏','QQ分享']
+      menus:['回到顶部', 'QQ分享']
     };
   },
   

@@ -2,6 +2,9 @@
   	
   <div class="flex align-center justify-between el-header">
   	<router-link tag="a" to="/index" class="fontcolor2 font17 margin-left margin-right">首页</router-link>
+	  <router-link tag="a" to="/jobs/1" class="fontcolor2 font17 margin-left margin-right" v-if="user.id">任务</router-link>
+	  <router-link tag="a" to="/menses/1" class="fontcolor2 font17 margin-left margin-right" v-if="user.id">列表</router-link>
+	  <router-link tag="a" to="/exam" class="fontcolor2 font17 margin-left margin-right" v-if="user.id">试题</router-link>
   	
   	<div class="flex align-center">
   		<el-button size="medium" @click="addArticle" type="primary">写文章</el-button>
@@ -30,7 +33,7 @@ import {mapState, mapActions} from 'vuex'
 export default {
   data () {
     return {
-     
+     showList: false
     }
   },
   

@@ -44,13 +44,13 @@
               </el-col>
 
               <el-col :span="6" :offset="1">
-                <img class="mes-img" :src="getImage(mes.coverImage) + '?imageView2/2/w/200'" />
+                <img class="mes-img" :src="getImage(mes.coverImage)" />
               </el-col>
             </el-col>
 
             <el-col :span="24" class="margin-top">
               <div class="flex align-center mes-bottom font12">
-                <span class="tag">{{mes.classification}}</span>
+                <span class="tag">未分类</span>
                 <span class="margin-left fontcolor2">已读：{{mes.countView || 0}}</span>
                 <span class="margin-left fontcolor2">评论：{{mes.countComment || 0}}</span>
                 <span class="margin-left fontcolor2">收藏：{{mes.countCollection || 0}}</span>

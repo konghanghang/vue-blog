@@ -26,13 +26,10 @@ export default {
 	//文章列表
 	list(page) {
 		let params = {
-			username: null,
-			pageModel: {
-				pageSize: 10,
-				pageNum: page
-			}
+			username: null
 		}
-		return fetch.postJson('/article/list', params)
+		var url = '/article/page' + "?pageSize=" + 10 + "&pageNum=" + page
+		return fetch.postJson(url, params)
 	},
 
 	//文章精选列表
@@ -44,13 +41,10 @@ export default {
 	self(page) {
 		let user = JSON.parse(window.localStorage.getItem('jianbaba-userInfo'));
 		let params = {
-			username: user.username,
-			pageModel: {
-				pageSize: 10, 
-				pageNum: page
-			}
+			username: user.username
 		}
-		return fetch.postJson('/article/list', params)
+		var url = '/article/page' + "?pageSize=" + 10 + "&pageNum=" + page
+		return fetch.postJson(url, params)
 	},
 	
 	//删除文章

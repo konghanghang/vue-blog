@@ -21,7 +21,7 @@
 				</el-form-item>
 
 				<el-form-item label="内容">
-          <mavon-editor v-model="form.mdContent" ref=md :codeStyle="codeStyle" @imgAdd="$imgAdd" :toolbars="toolbars"/>
+          <mavon-editor v-model="form.mdContent" ref=md :codeStyle="codeStyle" :scrollStyle="true" @imgAdd="$imgAdd" :toolbars="toolbars"/>
 				</el-form-item>
 
 				<el-form-item>
@@ -36,15 +36,17 @@
 
 <script>
 import util from "../../libs/util";
-import { mavonEditor } from 'mavon-editor';
-import 'mavon-editor/dist/css/index.css';
+// import { mavonEditor } from 'mavon-editor';
+// import 'mavon-editor/dist/css/index.css';
 import article from "../../api/article";
 import common from '../../api/common';
 import upload from "../../components/upload";
 
+// const markdownIt = mavonEditor.getMarkdownIt();
+// markdownIt.set({ breaks: false });
+
 export default {
   components: {
-    mavonEditor,
     upload
   },
   data() {
@@ -57,7 +59,7 @@ export default {
       },
       defaultUrl:'',
       description: null,
-      codeStyle: 'androidstudio',
+      codeStyle: 'androidstudio', 
       toolbars:{
         bold: true, // 粗体
         italic: true, // 斜体
@@ -156,7 +158,7 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.result
+              id: ret.data
             }
           });
         }).catch(err => {
@@ -190,7 +192,7 @@ export default {
           this.$router.push({
             name: "detail",
             params: {
-              id: ret.data.result
+              id: ret.data
             }
           });
         })
@@ -264,6 +266,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-
+<style>
+  .markdown-body pre code {
+    white-space: nowrap!important;
+}
 </style>

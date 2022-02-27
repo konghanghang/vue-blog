@@ -2,7 +2,7 @@
     <el-container>
         <el-header>job列表</el-header>
         <el-row>
-            <el-button type="primary" @click="search">查询</el-button>
+            <el-button type="primary" @click="queryJob">查询</el-button>
             <el-button type="primary" @click="showAdd">添加</el-button>
         </el-row>
         <el-main>
@@ -141,7 +141,6 @@ export default {
       queryJob(){
           this.$store.commit("updateLoad", true);
             jobApi.queryJob(this.page).then(ret => {
-                console.log(ret)
                 this.jobList = ret.data.list
                 this.jobPage = ret.data.pageModel
                 this.$store.commit("updateLoad", false);
@@ -149,9 +148,6 @@ export default {
                 this.$message.error(err.message);
                 this.$store.commit("updateLoad", false);
             })
-        },
-        search(){
-            //
         },
         showAdd(){
             this.addFormVisible = true;

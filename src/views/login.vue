@@ -141,7 +141,7 @@ export default {
                   });
                 }
               }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
                 this.$store.commit("setSubmit", false);
               });
           }

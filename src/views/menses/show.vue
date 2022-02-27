@@ -3,20 +3,14 @@
         <el-header>Header</el-header>
         <el-main>
             <el-table :data="mensesList" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="openId" label="openId">
-                </el-table-column>
-                <el-table-column prop="year" label="年份">
-                </el-table-column>
-                <el-table-column prop="month" label="月份">
-                </el-table-column>
-                <el-table-column prop="lastTime" label="上一次时间" :formatter="dateFormat">
-                </el-table-column>
-                <el-table-column prop="predictionTime" label="预计" :formatter="dateFormat">
-                </el-table-column>
-                <el-table-column prop="trueTime" label="真正" :formatter="dateFormat">
-                </el-table-column>
-                <el-table-column prop="createDate" label="创建时间" :formatter="dateFormat">
-                </el-table-column>
+                <el-table-column prop="openId" label="openId"></el-table-column>
+                <el-table-column prop="year" label="年份"></el-table-column>
+                <el-table-column prop="month" label="月份"></el-table-column>
+                <!-- <el-table-column prop="lastTime" label="上一次时间" :formatter="dateFormat"></el-table-column> -->
+                <el-table-column prop="lastTime" label="上一次时间"></el-table-column>
+                <el-table-column prop="predictionTime" label="预计"></el-table-column>
+                <el-table-column prop="trueTime" label="真正"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间"></el-table-column>
             </el-table>
         </el-main>
         <pagination :pageModel="mensesPage"></pagination>
@@ -65,11 +59,11 @@ export default {
           this.$store.commit("updateLoad", true);
             menses.show(this.page).then(ret => {
                 console.log(ret)
-                this.mensesList = ret.data.data.list
-                this.mensesPage = ret.data.data.pageModel
+                this.mensesList = ret.data.list
+                this.mensesPage = ret.data.pageModel
                 this.$store.commit("updateLoad", false);
             }).catch(err => {
-                this.$message.error(err.data.message);
+                this.$message.error(err.message);
                 this.$store.commit("updateLoad", false);
             })
         },
